@@ -19,7 +19,7 @@ For the backend repository, visit: [Ride Management System - Backend](https://gi
 - **Frontend**: [https://ride-management-frontend.vercel.app](https://ride-management-frontend.vercel.app) <!-- Replace with actual deployment URL -->
 - **Backend**: [https://ride-management-backend.herokuapp.com](https://ride-management-backend.herokuapp.com) <!-- Replace with actual deployment URL -->
 
-## Features
+## Features  
 
 ### Public Pages (No Authentication Required)
 - **Home**: Five distinct sections, including Hero Banner, How-it-Works, Service Highlights, Testimonials, and Call-to-Action.
@@ -81,6 +81,8 @@ For the backend repository, visit: [Ride Management System - Backend](https://gi
 - **Backend**: Node.js/Express, MongoDB, JWT + bcrypt (see backend repo)
 - **Deployment**: Vercel (frontend), Heroku/Render (backend)
 
+*
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -94,3 +96,5 @@ For the backend repository, visit: [Ride Management System - Backend](https://gi
    ```bash
    git clone https://github.com/your-username/ride-management-frontend.git
    cd ride-management-frontend
+
+
