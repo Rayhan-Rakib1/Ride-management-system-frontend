@@ -15,7 +15,7 @@ For the backend repository, visit: [Ride Management System - Backend](https://gi
 
 ## Live Deployment
 
-- **Frontend**: [Ride Management System - Frontend live link](hhttps://ride-management-system-frontend.vercel.app/) <!-- Replace with actual deployment URL -->
+- **Frontend**: [Ride Management System - Frontend live link](https://ride-management-system-frontend.vercel.app/) <!-- Replace with actual deployment URL -->
 - **Backend**: [Ride Management System - Backend live link](https://assainment-5-server.vercel.app/) <!-- Replace with actual deployment URL -->
 
 ## Features  
