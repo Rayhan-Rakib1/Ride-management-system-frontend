@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,7 +10,7 @@ import {
 } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   Select,
   SelectContent,
@@ -19,14 +18,98 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { z } from "zod";
+import { useCreateRiderMutation } from "@/redux/features/rider/rider.api";
+
+const riderRegisterSchema = z
+  .object({
+    name: z
+      .string()
+      .min(3, { message: "Name must be at least 3 characters" })
+      .max(50, { message: "Name is too long" }),
+
+    email: z.string().email({ message: "Invalid email address" }),
+
+    address: z
+      .string()
+      .min(5, { message: "Address must be at least 5 characters" }),
+
+    phone: z.string().regex(/^\+8801[3-9]\d{8}$/, {
+      message: "Invalid Bangladeshi phone number",
+    }),
+
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
+
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Confirm Password must be at least 8 characters" }),
+
+    profileImage: z.string().url({ message: "Invalid URL format" }).optional(),
+
+    gender: z.enum(["male", "female", "other"], {
+      error: () => ({ message: "Gender is required" }),
+    }),
+
+    dateOfBirth: z.string().refine((val) => !isNaN(Date.parse(val)), {
+      message: "Invalid date format",
+    }),
+
+    nationality: z.string().min(2, { message: "Nationality is required" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"], // error will show under confirmPassword field
+  });
 
 export function RiderSignUp({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const form = useForm();
+  const [createRider] = useCreateRiderMutation();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
+  const form = useForm<z.infer<typeof riderRegisterSchema>>({
+    resolver: zodResolver(riderRegisterSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      address: "",
+      dateOfBirth: "",
+      gender: undefined,
+      nationality: "",
+      phone: "",
+      profileImage: "",
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof riderRegisterSchema>) => {
+    const riderInfo = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      address: data.address,
+      dateOfBirth: data.dateOfBirth,
+      gender: data.gender,
+      nationality: data.nationality,
+      phone: data.phone,
+      profileImage: data.profileImage,
+    };
+
+    try {
+      const res = await createRider(riderInfo).unwrap();
+      if (res.success) {
+        toast.success("Rider Created successfully");
+        navigate("/verify-otp", { state: data.email });
+      }
+    } catch (error) {
+      console.log(error);
+    }
     console.log("Driver signup data:", data);
   };
 
@@ -115,7 +198,11 @@ export function RiderSignUp({
                   <FormItem className="flex-1">
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="********" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="********"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -128,7 +215,11 @@ export function RiderSignUp({
                   <FormItem className="flex-1">
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="********" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="********"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -212,11 +303,8 @@ export function RiderSignUp({
               )}
             />
 
-       
-            
-
             <Button type="submit" className="w-full">
-              Submit
+              Register as a rider
             </Button>
           </form>
         </Form>

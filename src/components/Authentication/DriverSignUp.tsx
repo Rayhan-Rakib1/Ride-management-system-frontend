@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-refresh/only-export-components */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,7 +11,7 @@ import {
 } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   Select,
   SelectContent,
@@ -20,15 +20,128 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {  z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useCreateDriverMutation } from "@/redux/features/driver/driver.api";
+import { toast } from "sonner";
+
+export const driverRegisterSchema = z
+  .object({
+    name: z.string().min(3, "Full name must be at least 3 characters"),
+    email: z.string().email("Invalid email address"),
+    address: z.string().min(5, "Address is required"),
+    phone: z
+      .string()
+      .regex(/^(\+8801[3-9]\d{8})$/, "Invalid Bangladeshi phone number"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string().min(6, "Please confirm your password"),
+    profileImage: z.string().url("Must be a valid image URL"),
+    gender: z
+      .enum(["male", "female", "other"])
+      .refine((val) => val !== undefined, { message: "Gender is required" }),
+    dateOfBirth: z.string().nonempty("Date of birth is required"),
+    nationality: z.string().min(2, "Nationality is required"),
+    vehicleNumber: z.string().min(3, "Vehicle number is required"),
+    vehicleType: z
+      .enum(["car", "bike", "van"])
+      .refine((val) => val !== undefined, {
+        message: "Vehicle type is required",
+      }),
+
+    vehicleColor: z.string().min(2, "Vehicle color is required"),
+    vehicleModel: z.string().min(2, "Vehicle model is required"),
+    licenseNumber: z.string().min(5, "License number is required"),
+    licenseExpiry: z.string().nonempty("License expiry date is required"),
+    availability: z
+      .enum(["online", "offline"])
+      .refine((val) => val !== undefined, {
+        message: "Availability is required",
+      }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
 export function DriverSignUp({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const form = useForm();
+  const navigate = useNavigate();
+  const [createDriver] = useCreateDriverMutation();
 
-  const onSubmit = (data: any) => {
-    console.log("Driver signup data:", data);
+  const form = useForm<z.infer<typeof driverRegisterSchema>>({
+    resolver: zodResolver(driverRegisterSchema),
+    defaultValues: {
+      address: "",
+      availability: undefined,
+      confirmPassword: "",
+      dateOfBirth: "",
+      email: "",
+      gender: undefined,
+      licenseExpiry: "",
+      licenseNumber: "",
+      name: "",
+      nationality: "",
+      password: "",
+      phone: "",
+      profileImage: "",
+      vehicleColor: "",
+      vehicleModel: "",
+      vehicleNumber: "",
+      vehicleType: undefined,
+    },
+  });
+
+const onSubmit = async (data: z.infer<typeof driverRegisterSchema>) => {
+  const driverInfo = {
+    name: data.name,
+    email: data.email,
+    password: data.password,
+    role: "driver",
+    approvalStatus: "pending",
+    availability: data.availability,
+    address: data.address,
+    phone: data.phone,
+    profileImage: data.profileImage,
+    gender: data.gender,
+    dateOfBirth: new Date(data.dateOfBirth),
+    nationality: data.nationality,
+    auth: [
+      {
+        provider: "credential",
+        providerId: data.email, 
+      },
+    ],
+    vehicleInfo: {
+      vehicleType: data.vehicleType,
+      number: data.vehicleNumber,
+      color: data.vehicleColor,
+      model: data.vehicleModel,
+      year: new Date(data.dateOfBirth).getFullYear(), 
+    },
+    license: {
+      number: data.licenseNumber,
+      expiryDate: new Date(data.licenseExpiry),
+    },
+    totalRides: 0,
+    totalEarnings: 0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
+
+  try {
+    const res = await createDriver(driverInfo).unwrap();
+    if (res.success) {
+      toast.success("You are now a driver 🚖");
+      navigate("/verify-otp", { state: data.email });
+    }
+  } catch (error) {
+    console.log("Driver creation error:", error);
+    toast.error("Failed to create driver account");
+  }
+};
+
 
   return (
     <div className={cn("flex flex-col gap-6 m-4", className)} {...props}>
@@ -115,7 +228,11 @@ export function DriverSignUp({
                   <FormItem className="flex-1">
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="********" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="********"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -128,7 +245,11 @@ export function DriverSignUp({
                   <FormItem className="flex-1">
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="********" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="********"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -340,7 +461,7 @@ export function DriverSignUp({
             />
 
             <Button type="submit" className="w-full">
-              Submit
+              Register as a driver
             </Button>
           </form>
         </Form>

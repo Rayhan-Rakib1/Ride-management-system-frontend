@@ -16,18 +16,18 @@ import { DriverSignUp } from "./DriverSignUp"
 export function SignUpForm() {
   return (
     <div className="flex max-w-3xl  flex-col gap-6  container mx-auto mt-15 mb-15">
-      <Tabs className="" defaultValue="account" >
+      <Tabs className="" defaultValue="Rider" >
         <TabsList className="w-full border ">
-          <TabsTrigger value="account">Rider Account</TabsTrigger>
+          <TabsTrigger value="Rider">Become a Rider</TabsTrigger>
           <p>|</p>
-          <TabsTrigger value="password">Driver account</TabsTrigger>
+          <TabsTrigger value="Driver">Become a Driver</TabsTrigger>
         </TabsList>
-        <TabsContent value="account">
+        <TabsContent value="Rider">
           <Card>
           <RiderSignUp></RiderSignUp>
           </Card>
         </TabsContent>
-        <TabsContent value="password">
+        <TabsContent value="Driver">
           <Card>
             <DriverSignUp></DriverSignUp>
           </Card>

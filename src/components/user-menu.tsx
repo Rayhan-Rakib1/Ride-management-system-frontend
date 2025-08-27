@@ -1,9 +1,6 @@
 import {
   BoltIcon,
-  BookOpenIcon,
-  Layers2Icon,
   LogOutIcon,
-  PinIcon,
   UserPenIcon,
 } from "lucide-react"
 
@@ -22,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Link } from "react-router"
 
 export default function UserMenu() {
   return (
@@ -49,21 +47,11 @@ export default function UserMenu() {
             <BoltIcon size={16} className="opacity-60" aria-hidden="true" />
             <span>Option 1</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Layers2Icon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 2</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <BookOpenIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 3</span>
-          </DropdownMenuItem>
+         
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <PinIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 4</span>
-          </DropdownMenuItem>
+        
           <DropdownMenuItem>
             <UserPenIcon size={16} className="opacity-60" aria-hidden="true" />
             <span>Option 5</span>
@@ -71,8 +59,8 @@ export default function UserMenu() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <span>Logout</span>
+          
+          <Link to="signIn" className="flex gap-1.5"><LogOutIcon size={16} className="opacity-60" aria-hidden="true" /><span>Sign In</span></Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

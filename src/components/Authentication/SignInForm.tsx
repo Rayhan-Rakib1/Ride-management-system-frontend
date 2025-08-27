@@ -11,16 +11,53 @@ import {
 } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { toast } from "sonner";
+import { config } from "@/config";
 
 export function SignInForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const onSubmit = (data: any) => {
-    console.log("Driver signup data:", data);
+  const navigate = useNavigate();
+  const [login] = useLoginMutation();
+
+  const onSubmit = async (data: any) => {
+    const loginData = {
+      email: data.email,
+      password: data.password,
+    };
+    try {
+      const res = await login(loginData).unwrap();
+
+      if (res.success) {
+        toast.success("You are login successfully");
+        navigate("/");
+      }
+    } catch (error: any) {
+      console.log(error);
+      const message =
+        error?.data?.message ||
+        error?.response?.data?.message ||
+        "Login failed";
+
+      if (message === "Password does not match") {
+        toast.error("Password does not match");
+      } else if (message === "User is not verified") {
+        toast.error("You are not verified");
+        navigate("/verify-otp", { state: data.email });
+      } else {
+        toast.error(message);
+      }
+    }
   };
 
   return (
@@ -89,6 +126,7 @@ export function SignInForm({
         </div>
 
         <Button
+         onClick={() => window.open(`${config.baseUrl}/auth/google`)}
           type="button"
           variant="outline"
           className="w-full cursor-pointer"
