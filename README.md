@@ -1,6 +1,5 @@
 # Ride Management System - Frontend
 
-![Project Banner](https://via.placeholder.com/1200x400.png?text=Ride+Management+System) <!-- Replace with actual banner image -->
 
 ## Overview
 
@@ -12,12 +11,12 @@ Key features include:
 - Real-time ride tracking (optional), data visualizations, and an SOS safety feature.
 - Comprehensive error handling, form validations, and toast notifications.
 
-For the backend repository, visit: [Ride Management System - Backend](https://github.com/your-username/ride-management-backend) <!-- Replace with actual backend repo URL -->
+For the backend repository, visit: [Ride Management System - Backend](https://github.com/Rayhan-Rakib1/Ride-management-system-backend) <!-- Replace with actual backend repo URL -->
 
 ## Live Deployment
 
-- **Frontend**: [https://ride-management-frontend.vercel.app](https://ride-management-frontend.vercel.app) <!-- Replace with actual deployment URL -->
-- **Backend**: [https://ride-management-backend.herokuapp.com](https://ride-management-backend.herokuapp.com) <!-- Replace with actual deployment URL -->
+- **Frontend**: [Ride Management System - Frontend live link](hhttps://ride-management-system-frontend.vercel.app/) <!-- Replace with actual deployment URL -->
+- **Backend**: [Ride Management System - Backend live link](https://assainment-5-server.vercel.app/) <!-- Replace with actual deployment URL -->
 
 ## Features  
 
