@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Table,
   TableBody,
@@ -5,99 +6,58 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-
-const items = [
-  {
-    id: "1",
-    name: "Alex Thompson",
-    username: "@alexthompson",
-    image:
-      "https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/avatar-40-02_upqrxi.jpg",
-    email: "alex.t@company.com",
-    location: "San Francisco, US",
-    status: "Active",
-    balance: "$1,250.00",
-  },
-  {
-    id: "2",
-    name: "Sarah Chen",
-    username: "@sarahchen",
-    image:
-      "https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/avatar-40-01_ij9v7j.jpg",
-    email: "sarah.c@company.com",
-    location: "Singapore",
-    status: "Active",
-    balance: "$600.00",
-  },
-  {
-    id: "4",
-    name: "Maria Garcia",
-    username: "@mariagarcia",
-    image:
-      "https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/avatar-40-03_dkeufx.jpg",
-    email: "m.garcia@company.com",
-    location: "Madrid, Spain",
-    status: "Active",
-    balance: "$0.00",
-  },
-  {
-    id: "5",
-    name: "David Kim",
-    username: "@davidkim",
-    image:
-      "https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/avatar-40-05_cmz0mg.jpg",
-    email: "d.kim@company.com",
-    location: "Seoul, KR",
-    status: "Active",
-    balance: "-$1,000.00",
-  },
-]
+} from "@/components/ui/table";
+import { useGetAllRidersQuery } from "@/redux/features/rider/rider.api";
 
 export default function AllRiderTable() {
+  const { data, isLoading } = useGetAllRidersQuery(undefined);
+
+  const riders = data?.data ?? [];
+
+  if (isLoading) {
+    return <p className="text-center">Loading riders...</p>;
+  }
+
   return (
     <div>
       <Table>
-        <TableHeader>
-          <TableRow className="hover:bg-transparent">
+        <TableHeader className="bg-transparent">
+          <TableRow className="*:border-border hover:bg-transparent [&>:not(:last-child)]:border-r">
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead>Location</TableHead>
+            <TableHead>Phone</TableHead>
+            <TableHead>Address</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead className="text-right">Balance</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead>Gender</TableHead>
+            <TableHead>Date of Birth</TableHead>
+            <TableHead>Nationality</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {items.map((item) => (
-            <TableRow key={item.id}>
+        <TableBody className="[&_td:first-child]:rounded-l-lg [&_td:last-child]:rounded-r-lg">
+          {riders.map((rider: any) => (
+            <TableRow
+              key={rider._id.toString()}
+              className="*:border-border hover:bg-transparent [&>:not(:last-child)]:border-r"
+            >
+              <TableCell className="font-medium">{rider.name}</TableCell>
+              <TableCell>{rider.email}</TableCell>
+              <TableCell>{rider.phone}</TableCell>
+              <TableCell>{rider.address}</TableCell>
+              <TableCell>{rider.status ?? "N/A"}</TableCell>
+              <TableCell>{rider.role}</TableCell>
+              <TableCell>{rider.gender ?? "N/A"}</TableCell>
               <TableCell>
-                <div className="flex items-center gap-3">
-                  <img
-                    className="rounded-full"
-                    src={item.image}
-                    width={40}
-                    height={40}
-                    alt={item.name}
-                  />
-                  <div>
-                    <div className="font-medium">{item.name}</div>
-                    <span className="text-muted-foreground mt-0.5 text-xs">
-                      {item.username}
-                    </span>
-                  </div>
-                </div>
+                {rider.dateOfBirth
+                  ? new Date(rider.dateOfBirth).toLocaleDateString()
+                  : "N/A"}
               </TableCell>
-              <TableCell>{item.email}</TableCell>
-              <TableCell>{item.location}</TableCell>
-              <TableCell>{item.status}</TableCell>
-              <TableCell className="text-right">{item.balance}</TableCell>
+              <TableCell>{rider.nationality ?? "N/A"}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <p className="text-muted-foreground mt-4 text-center text-sm">
-        Table with images
-      </p>
+    
     </div>
-  )
+  );
 }

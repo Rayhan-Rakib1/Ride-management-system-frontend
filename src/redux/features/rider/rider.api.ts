@@ -67,4 +67,4 @@ const riderApi = baseApi.injectEndpoints({
 })
 
 
-export const {useCreateRiderMutation} = riderApi;
+export const {useCreateRiderMutation, useDeleteRiderAccountByIdMutation, useDeleteRiderAccountMutation, useGetAllRidersQuery, useGetMeQuery, useGetMyByIdQuery, useGetMyHistoryQuery, useUpdateMyOwnProfileMutation, } = riderApi;

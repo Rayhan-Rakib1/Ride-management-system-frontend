@@ -1,6 +1,6 @@
 
 
-import { NavUser } from "@/components/nav-user";
+// import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -18,11 +18,13 @@ import Logo from "@/assets/Logo";
 import { useMyUserInfoQuery } from "@/redux/features/user/user.api";
 import { getSidebarItems } from "@/utils/getSideBarItems";
 import { Link } from "react-router";
+import { NavUser } from "./nav-user";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData } = useMyUserInfoQuery(undefined);
+  console.log(userData?.data?.role);
   const data = {
-    navMain: getSidebarItems(userData?.data?.email),
+    navMain: getSidebarItems(userData?.data?.role),
   };
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -60,7 +62,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={userData.user} />
+          {userData?.data ? (
+          <NavUser
+            user={{
+              name: userData.data.name || "Guest",
+              email: userData.data.email || "guest@example.com",
+              avatar: userData.data.profileImage || "",
+            }}
+          />
+        ) : (
+          <div>Loading...</div>
+        )}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

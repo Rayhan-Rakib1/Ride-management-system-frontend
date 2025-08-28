@@ -23,6 +23,7 @@ import { useMyUserInfoQuery } from "@/redux/features/user/user.api";
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
+  { href: "/create-ride", label: "Create Ride", role: "PUBLIC" },
   { href: "/aboutUs", label: "About Us", role: "PUBLIC" },
   { href: "/features", label: "Features", role: "PUBLIC" },
   { href: "/contact", label: "Contact", role: "PUBLIC" },
@@ -35,12 +36,10 @@ const navigationLinks = [
 
 export default function Navbar() {
 
-  
+
   const { data } = useMyUserInfoQuery(undefined);
-const role = data?.data?.role;
-const name = data?.data?.name;
-const email = data?.data?.email;
-console.log(role, name, email);
+
+console.log(data?.data?.email);
   return (
     <header className="border-b px-4 md:px-6">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4">

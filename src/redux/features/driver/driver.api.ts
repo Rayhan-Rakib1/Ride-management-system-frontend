@@ -17,6 +17,13 @@ const driverApi = baseApi.injectEndpoints({
       }),
       providesTags: ["DRIVER"],
     }),
+    getDriverCurrentRide: builder.query({
+      query: () => ({
+        url: "/driver/driver-current-ride",
+        method: "GET",
+      }),
+      providesTags: ["DRIVER"],
+    }),
     getSingleDriverById: builder.query({
       query: (driverId) => ({
         url: `/driver/${driverId}`,
@@ -72,4 +79,4 @@ const driverApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateDriverMutation, useAllDriverQuery, useDriverAcceptRideRequestMutation, useDriverUpdateRideStatusMutation, useGetDriverEarningQuery, useGetDriverRideHistoryQuery, useGetSingleDriverByIdQuery, useUpdateDriverApprovalMutation, useUpdateDriverAvailabilityMutation } = driverApi;
+export const { useCreateDriverMutation, useAllDriverQuery, useDriverAcceptRideRequestMutation, useDriverUpdateRideStatusMutation, useGetDriverEarningQuery, useGetDriverRideHistoryQuery, useGetSingleDriverByIdQuery, useUpdateDriverApprovalMutation, useUpdateDriverAvailabilityMutation, useGetDriverCurrentRideQuery } = driverApi;

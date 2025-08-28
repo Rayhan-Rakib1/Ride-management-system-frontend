@@ -1,5 +1,4 @@
 import App from "@/App";
-import DashboardLayout from "@/components/layout/DashboardLayout";
 import { role } from "@/constant/role";
 import AboutUs from "@/pages/AboutUs";
 import Contact from "@/pages/Contact";
@@ -18,6 +17,8 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./AdminSideBarItems";
 import { driverSidebarItems } from "./DriverSideBarItems";
 import { riderSidebarItems } from "./riderSideBarItems";
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import { CreateRideForm } from "@/pages/CreateRideForm";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
         index: true,
       },
 
+      {
+        Component: CreateRideForm,
+        path: "/create-ride",
+      },
       {
         Component: AboutUs,
         path: "/aboutUs",
@@ -64,7 +69,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        // element: <Navigate to="/driver/accept-ride-request"></Navigate>,
+        element: <Navigate to="/driver/home"></Navigate>,
       },
       ...generateRoutes(driverSidebarItems),
     ],
@@ -75,7 +80,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/rider/create-ride-request"></Navigate>,
+        element: <Navigate to="/rider/ride-history"></Navigate>,
       },
       ...generateRoutes(riderSidebarItems),
     ],

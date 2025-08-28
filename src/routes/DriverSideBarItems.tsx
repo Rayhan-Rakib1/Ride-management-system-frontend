@@ -1,6 +1,9 @@
-import AllDriver from "@/pages/Admin/AllDriver";
-import AllRider from "@/pages/Admin/AllRider";
-import AllUser from "@/pages/Admin/AllUser";
+
+import DriverActivateRide from "@/pages/Driver/DriverActivateRide";
+// import DriverEarningsDashboard from "@/pages/Driver/DriverEarningsDashboard";
+import DriverHome from "@/pages/Driver/DriverHome";
+import DriverIncomingRideRequests from "@/pages/Driver/DriverIncomingRideRequests";
+import DriverRideHistory from "@/pages/Driver/DriverRideHistory";
 import type { ISideBarItems } from "@/types";
 
 export const driverSidebarItems: ISideBarItems[] = [
@@ -8,20 +11,32 @@ export const driverSidebarItems: ISideBarItems[] = [
     title: "Driver Dashboard",
     items: [
       {
-        title: "User management",
-        url: "/driver/all-users",
-        component: AllUser,
+        title: "Home",
+        url: "/driver/home",
+        component: DriverHome,
+      },
+        {
+        title: "Accept Ride request",
+        url: "/driver/ride-request",
+        component: DriverIncomingRideRequests,
       },
       {
-        title: "Ride management",
-        url: "/driver/all-riders",
-        component: AllRider,
+        title: "Activated ride",
+        url: "/driver/activateRide",
+        component: DriverActivateRide,
       },
+      // {
+      //   title: "Your earing",
+      //   url: "/driver/earning",
+      //   component: DriverEarningsDashboard,
+      // },
+    
       {
-        title: "Driver management",
-        url: "/driver/all-drivers",
-        component: AllDriver,
+        title: "Ride history",
+        url: "/driver/ride-history",
+        component: DriverRideHistory,
       },
+      
     ],
   },
 ];

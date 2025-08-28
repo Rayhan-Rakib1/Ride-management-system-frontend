@@ -12,7 +12,7 @@ const rideApi = baseApi.injectEndpoints({
     }),
     getAllRide: builder.query({
       query: () => ({
-        url: "/ride/all-rides",
+        url: "/rides/all-rides",
         method: "GET",
       }),
       providesTags: ["RIDE"],

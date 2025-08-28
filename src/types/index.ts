@@ -20,3 +20,14 @@ export interface ISideBarItems{
 }
 
 export type TRole =  "SUPER_ADMIN" | "ADMIN" | "RIDER" | "DRIVER";
+
+export enum IRideStatus {
+  Requested = "requested",
+  Accepted = "accepted",
+  PickedUp = "picked_up",
+  InTransit = "in_transit",
+  Completed = "completed",
+  Cancelled = "cancelled",
+  PaymentFailed = "payment_failed",
+  PaymentCancel = "payment_cancel",
+}

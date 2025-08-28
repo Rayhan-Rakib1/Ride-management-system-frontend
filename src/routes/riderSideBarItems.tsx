@@ -1,6 +1,5 @@
-import AllDriver from "@/pages/Admin/AllDriver";
-import AllRider from "@/pages/Admin/AllRider";
-import AllUser from "@/pages/Admin/AllUser";
+
+import RideHistory from "@/pages/Rider/RideHistory";
 import type { ISideBarItems } from "@/types";
 
 export const riderSidebarItems: ISideBarItems[] = [
@@ -9,19 +8,10 @@ export const riderSidebarItems: ISideBarItems[] = [
     items: [
       {
         title: "User management",
-        url: "/rider/all-users",
-        component: AllUser,
+        url: "/rider/ride-history",
+        component: RideHistory,
       },
-      {
-        title: "Ride management",
-        url: "/rider/all-riders",
-        component: AllRider,
-      },
-      {
-        title: "Driver management",
-        url: "/rider/all-drivers",
-        component: AllDriver,
-      },
+    
     ],
   },
 ];
